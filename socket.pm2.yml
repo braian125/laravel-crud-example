@@ -1,0 +1,12 @@
+# $> pm2 start socket.pm2.yml
+apps:
+  - name: apph
+    script: socket.js
+    exec_mode: fork #Tambien puede ser cluster
+    interpreter: node
+    #watch: true
+    #instances: 4 #Número de procesos a utilizar
+    args:
+      #- --watch
+      #- -i
+      #- max
