@@ -39,7 +39,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        /*DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $validated = $request->validated();
             $user = User::updateOrCreate(['id' => $request->id], $request->all());
@@ -47,19 +47,15 @@ class UserController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 422);
-        }*/
-
-
-        //\Event::fire(new \App\Events\VueEvent($request->all()));
-        //broadcast(new \App\Events\VueEvent($request->all()));
+        }
 
         $redis = Redis::connection();
         $redis->publish('vue-real-time', json_encode([
-            'evento' => 'USER',
-            'datos' => $request->all()
+            'socket' => 'USER',
+            'data' => $user
         ]));
 
-        return response()->json($request->all(), 200);
+        return response()->json($user, 200);
     }
 
     /**
